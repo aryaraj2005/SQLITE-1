@@ -1,15 +1,4 @@
-
-
-    CREATE TABLE workers(
-    worker_id INT primary key,
-    worker_firstname  CHAR(25),
-    worker_lastname CHAR(25),
-    salary INT(50),
-    joining_date DATE,
-    Department CHAR(25)
-    );
-    
-    INSERT INTO workers
+   INSERT INTO workers
     (worker_id , worker_firstname ,  worker_lastname ,  salary ,  joining_date,  Department)
     VALUES
      (001 , 'Ram' , 'kumar', 50000 ,'12-05-2002' , 'HR'),
@@ -97,14 +86,44 @@ SELECT '----------------Soriting KEY --ORDER BY DESCENDING  --------  ----';
       SELECT '---------Grouping using filter KEY @having like Department but no of employee >= 2  --------------';
      SELECT Department, COUNT(Department) FROM workers GROUP BY Department HAVING COUNT(Department) >=2; 
      
-     
-     
-      
+          
     SELECT 'All worker list of salary -----';
        SELECT salary FROM workers;
+     
+     --------- Data MODIFICATION LANGUAGE------
+  SELECT '--------Data MODIFICATION LANGUAGE INSERT , DELETE , UPDATE---------------';
+  INSERT INTO workers VALUES(011 , 'Arjun ' , 'sinha ' , 46000, '14-09-1989' , 'HBR' );
+      SELECT * FROM workers;
+INSERT INTO workers(worker_id , worker_firstname)
+VALUES(012, 'bheem');
+      
+----- update --------
+UPDATE workers SET worker_lastname = 'dahia' , salary = 550000 , joining_date ='4-04-2006' , Department ='XHR' WHERE worker_id=012;
+     SELECT * FROM workers;  
+     SELECT '--------Data MODIFICATION LANGUAGE update multiple row--------------';
+-------update multiple row----------
+    UPDATE workers SET salary = 100000;
+     UPDATE workers SET Department = 'Android developer';
+          SELECT * FROM workers;  
+--------- delete-----------
+  SELECT '--------Data MODIFICATION LANGUAGE delete-------------------------';
+  DELETE from workers WHERE worker_id =10; 
+  SELECT worker_id FROM workers;  
+  
+   DELETE from workers WHERE salary  = 50000; 
+  SELECT worker_firstname FROM workers; 
 
+ --------- replace -------------
+  SELECT '--------Data MODIFICATION LANGUAGE  REPLACE if already 
+  present then replace if not then insert new entry------------------------';
+ REPLACE into workers (worker_id , worker_firstname)
+ VALUES (001 , 'ramayan');
+
+ 
+   SELECT * FROM workers;
     
-    
+        SELECT 'All worker list of salary -----';
+       SELECT salary FROM workers;
       
         SELECT 'All worker list of first name -----';
      SELECT worker_firstname FROM workers;
@@ -124,26 +143,115 @@ SELECT '----------------Soriting KEY --ORDER BY DESCENDING  --------  ----';
        
           SELECT 'All  worker bonus  list-----------   ';
        SELECT * FROM bonus;
+     
+     
        
      CREATE TABLE Title(
           worker_refID INT PRIMARY KEY, 
           worker_title  CHAR(25),
           affected_from DATE,
           worker_title_id INT,
-          FOREIGN KEY (worker_title_id) REFERENCES workers(worker_id)
-     );   
-     INSERT INTO Title( worker_refID ,worker_title,affected_from ) VALUES 
-     (001 , 'hr' , '16-05-2006' , 01),
-       (002 , 'mhr' , '16-05-2006'),
-        (003 , 'ohr' , '16-05-2006'),
-         (002 , 'hr' , '16-05-2006') , 
-           (001 , 'Ahr' , '16-05-2006');
+          FOREIGN KEY(worker_title_id) REFERENCES workers(worker_id) on delete CASCADE
+        );   
+     INSERT INTO Title( worker_refID ,worker_title,affected_from , worker_title_id ) VALUES 
+     (001 , 'hr' , '16-05-2006', 001 ),
+       (002 , 'mhr' , '16-05-2006', 005),
+        (003 , 'ohr' , '16-05-2006 ',007),
+         (004 , 'hr' , '16-05-2006',009) , 
+           (005 , 'Ahr' , '16-05-2006',012);
            
              SELECT 'All worker title list---------------';
-         SELECT * FROM Title;
+            SELECT * FROM Title;
+----- suppose i want to delete the hr 001(Ram) from workers beciuse he is no more
+---------- remain employee but if if i delet him from worker table but he is 
+ ---------- available in title so this is Integeraty constrainsts-----
+     
+SELECT ' ----- suppose i want to delete the hr 001 RAM from workers 
+beciuse he is no more remain employee but if if i delet him from worker
+     table but he is available in title so this is Integeraty constrainsts
+     , so we can not update or delete from parents (workers)
+     for delete update we have to maintain th constrainsts-----
+    -----on delete CASCADE or NUll method';
+    
+  DELETE from workers WHERE worker_id = 001;
+   SELECT * FROM workers;
+  SELECT * FROM Title;  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
          SELECT 'plus  operator-----';
       
       SELECT 44+10;
+      
+      
+      
+     CREATE TABLE Student (
+    sno INT PRIMARY KEY,
+    sname VARCHAR(20),
+    age INT); 
+ INSERT INTO Student(sno, sname,age) 
+ VALUES(1,'Ankit',17),
+       (2,'Ramya',18),
+       (3,'Ram',16);
+       
+   SELECT 'Create table  -----';     
+     SELECT *
+FROM Student;  
+       
+      CREATE TABLE Course (
+    cno INT PRIMARY KEY,
+    cname VARCHAR(20)
+);
+
+
+INSERT INTO Course(cno, cname) 
+ VALUES(101,'c'),
+       (102,'c++'),
+       (103,'DBMS');
+
+  SELECT 'Create table  Course -----';  
+SELECT *
+FROM Course; 
+    
+    CREATE TABLE Enroll (
+    sno INT,
+    cno INT,
+    jdate date,
+    PRIMARY KEY(sno,cno),
+    FOREIGN KEY(sno) 
+        REFERENCES Student(sno)
+        ON DELETE CASCADE
+    FOREIGN KEY(cno) 
+        REFERENCES Course(cno)
+        ON DELETE CASCADE
+);
+
+
+INSERT INTO Enroll(sno,cno,jdate) 
+ VALUES(1, 101, '5-jun-2021'),
+       (1, 102, '5-jun-2021'),
+       (2, 103, '6-jun-2021');
+         SELECT 'Create table Enroll  -----';  
+  SELECT *
+FROM Enroll;     
+   SELECT 'delete from parents  -----';     
+     DELETE FROM Student
+     WHERE sname="Ramya";
+
+  SELECT 'list of remaiming  Student  -----';  
+Select * from Student;
+ 
+ SELECT 'list of remaiming  in Enroll  -----';  
+Select * from Enroll;  
+      
+
 
      
