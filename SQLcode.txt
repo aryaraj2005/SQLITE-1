@@ -1,0 +1,149 @@
+
+
+    CREATE TABLE workers(
+    worker_id INT primary key,
+    worker_firstname  CHAR(25),
+    worker_lastname CHAR(25),
+    salary INT(50),
+    joining_date DATE,
+    Department CHAR(25)
+    );
+    
+    INSERT INTO workers
+    (worker_id , worker_firstname ,  worker_lastname ,  salary ,  joining_date,  Department)
+    VALUES
+     (001 , 'Ram' , 'kumar', 50000 ,'12-05-2002' , 'HR'),
+     (002 , 'Shyaam' , 'Sinha', 60000 ,'19-09-2003' , 'AHR'),
+     (003 , 'Raman' , 'pandey', 70000 ,'12-06-1906' , 'BHR'),
+     (004 , 'rohan' , 'singh', 85000 ,'23-01-1989' , 'HR'),
+     (006 , 'sohaam' , 'goyal', 40000 ,'22-08-2005' , 'BHR'),
+      (007 , 'sohail' , 'ragahw', 50000 ,'22-08-2005' , 'BHR'),
+      (008 , 'XYJ' , 'mishra', 110000 ,'22-08-2005' , 'RHR'),
+      (009 , 'Lohar' , 'prajapti', 50000 ,'22-08-2005' , 'BHR'),
+       (010 , 'lohit' , 'prajapti', null ,'22-08-2005' , 'BHR');
+     SELECT '-------null inserted at 10 id for salary ------------';
+     
+       -- null operator-----
+       SELECT '----is null operator-----';
+     SELECT * FROM workers WHERE salary isnull;
+    
+      
+      SELECT 'All worker list--';
+     SELECT * FROM workers;
+     
+     SELECT 'All the worker salary > 5000------';
+     SELECT* FROM workers WHERE salary>50000;
+     
+       SELECT 'All worker list departemt HR---------';
+     SELECT * FROM workers WHERE Department='HR';
+     
+     
+       SELECT 'All worker list slary between 0 to 70000';
+     -- salary between 0 to 70000 inclusive both 0 and 70000
+     SELECT * FROM workers WHERE salary BETWEEN 0 AND 70000;
+        
+        
+          SELECT 'All worker list   OR operator-----';
+     -- 0R TO REDUCES THE STATEMENTS 
+      SELECT * FROM workers WHERE Department ='HR' OR salary =50000;
+     
+        SELECT '----All worker list   IN operator-----';
+     -- to reduces multiple line use --IN --
+     SELECT * FROM workers WHERE Department IN ('HR' , 'BHR');
+     
+        SELECT '-----All worker list   NOT IN operator-----';
+     -- NOT -- USE WHILE EXCLUDE THE PARTICULAR ATTRIBUTE;
+      SELECT * FROM workers WHERE Department NOT IN('HR' , 'BHR');
+      
+       -- wildcard-----
+       SELECT '-----All worker list  wildcard %  LIKE keyword    ----';
+      SELECT worker_firstname FROM workers WHERE worker_firstname LIKE '%aa%';
+      
+      
+        SELECT '-----All worker list  wildcard  _ LIKE keyword    ----';
+      SELECT worker_lastname FROM workers WHERE worker_lastname LIKE '%a_';   
+     
+     --- sorting ----
+      SELECT '----------------Soriting KEY --ORDER BY --------  ----';
+       SELECT * FROM workers ORDER BY salary;
+SELECT '----------------Soriting KEY --ORDER BY DESCENDING  --------  ----';  
+         SELECT * FROM workers ORDER BY salary DESC;
+         
+ --- ---- distinct VALUES TO COUNT  LIKE NO OF GROUP  - hr , bhr ETC  --------
+   SELECT '----------------no of groups KEY --DISTINCT ------------';
+   SELECT DISTINCT Department FROM workers;     
+     
+            
+   ------------ Data grouping like Department vise aggregation is very imp like count , avg  , max , ,min  ------------
+     SELECT '----------------Grouping by  KEY --GROUP BY aggregation is very imp like count , avg  , max , ,min  --------  ----';
+      SELECT Department, COUNT(*) FROM workers GROUP BY Department;
+    
+    --------------avg salary per Department --------------
+      SELECT '----------------Avg salary by  using --GROUP BY --------  ----';
+      SELECT Department ,AVG(salary) FROM workers GROUP BY Department;
+      SELECT * , AVG(salary) FROM workers GROUP BY Department; 
+      
+         SELECT '----------------MINIMUM  salary by  using --GROUP BY --------  ----'; 
+       SELECT Department , MIN(salary) FROM workers GROUP BY Department;
+       
+         SELECT '----------------Max  salary by  using --GROUP BY --------  ----'; 
+       SELECT Department , MAX(salary) FROM workers GROUP BY Department;
+         
+   ------------ filter in Data grouping like Department but salary > 70000  ------------
+     SELECT '---------Grouping using filter KEY @having like Department but salary > 70000  --------------';
+      SELECT Department, COUNT(Department) FROM workers GROUP BY Department HAVING salary>=70000; 
+     
+     
+      SELECT '---------Grouping using filter KEY @having like Department but no of employee >= 2  --------------';
+     SELECT Department, COUNT(Department) FROM workers GROUP BY Department HAVING COUNT(Department) >=2; 
+     
+     
+     
+      
+    SELECT 'All worker list of salary -----';
+       SELECT salary FROM workers;
+
+    
+    
+      
+        SELECT 'All worker list of first name -----';
+     SELECT worker_firstname FROM workers;
+   
+     CREATE TABLE bonus(
+     worker_refID INT, 
+     bonus_amount INT(25),
+     bonus_date DATE,
+     FOREIGN KEY (worker_refID)
+     REFERENCES workers(worker_id)ON DELETE CASCADE);
+     INSERT INTO bonus (worker_refID , bonus_amount,  bonus_date )
+     VALUES
+     (001 , 5000, '16-7-2005'),
+      (002 , 5000, '16-7-2005'),
+      (002 , 4000, '16-7-2005'),
+       (003 , 8000, '16-7-2005');
+       
+          SELECT 'All  worker bonus  list-----------   ';
+       SELECT * FROM bonus;
+       
+     CREATE TABLE Title(
+          worker_refID INT PRIMARY KEY, 
+          worker_title  CHAR(25),
+          affected_from DATE,
+          worker_title_id INT,
+          FOREIGN KEY (worker_title_id) REFERENCES workers(worker_id)
+     );   
+     INSERT INTO Title( worker_refID ,worker_title,affected_from ) VALUES 
+     (001 , 'hr' , '16-05-2006' , 01),
+       (002 , 'mhr' , '16-05-2006'),
+        (003 , 'ohr' , '16-05-2006'),
+         (002 , 'hr' , '16-05-2006') , 
+           (001 , 'Ahr' , '16-05-2006');
+           
+             SELECT 'All worker title list---------------';
+         SELECT * FROM Title;
+      
+         SELECT 'plus  operator-----';
+      
+      SELECT 44+10;
+
+     
